@@ -8,4 +8,4 @@ module.exports = (Sequelize, type) => {
         
     });
     return MovieActor;
-}
+};
