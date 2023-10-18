@@ -1,8 +1,13 @@
 const express = require('express');
-
+const Director = require('../models/director');
 
 function create(req, res, next) {    
-    res.send('Directors create');
+    const name = req.body.name;
+    const lastName = req.body.lastName;
+    
+    const director = new Director({name:name, lastName:lastName});
+    director.save()
+    
 }
 
 function list(req, res, next) {
