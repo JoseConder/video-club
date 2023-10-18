@@ -3,7 +3,11 @@ const directorModel = require('./models/director');
 const genreModel = require('./models/genre');
 const movieModel = require('./models/movie');
 const actorModel = require('./models/actor');
+const memberModel = require('./models/member');
 const movieActorModel = require('./models/movieActor');
+const bookingModel = require('./models/booking');
+const copyModel = require('./models/copy');
+
 
 
 /*
@@ -19,11 +23,15 @@ const sequelize = new sequelize('video-club', 'root', 'holamundo',{
     dialect: 'mysql'
 });
 
-const Director = new directorModel(sequelize, Sequelize);
-const Genre = new genreModel(sequelize, Sequelize);
-const Movie = new movieModel(sequelize, Sequelize);
-const Actor = new actorModel(sequelize, Sequelize);
-const MovieActor = new movieActorModel(sequelize, Sequelize);
+const Director = directorModel(sequelize, Sequelize);
+const Genre = genreModel(sequelize, Sequelize);
+const Movie = movieModel(sequelize, Sequelize);
+const Actor = actorModel(sequelize, Sequelize);
+const Member = memberModel(sequelize, Sequelize);
+const MovieActor = movieActorModel(sequelize, Sequelize);
+const Booking = bookingModel(sequelize, Sequelize);
+const Copy = copyModel(sequelize, Sequelize);
+
 
 // un genero tiene muchas peliculas y una peli tiene un genero
 
@@ -39,6 +47,22 @@ MovieActor.belongsTo(Actor, {foreingKey: 'actorId'});
 
 Movie.belongsToMany(Actor, {foreingKey: 'actorId', as: 'actors', trough: 'movies_actors'});
 Actor.belongsToMany(Movie, {foreingKey: 'movieId', as: 'movies', trough: 'movies_actors'});
+
+// Un miembro puede tener muchos bookings
+Member.hasMany(Booking, {foreignKey: 'memberId',as: 'bookings'});
+// Un booking puede tener solo un member
+Booking.belongsTo(Member, {as: 'member'});
+
+//Una copia puede tener muchos bookings
+Copy.hasMany(Booking, {as: 'bookings'});
+// Un booking puede tener una copia
+Booking.belongsTo(Copy, {as: 'copy'});
+
+//Una copia puede tener solo una pelicula
+Copy.belongsTo(Movie, {as: 'movie'});
+// Una pelicula puede tener muchas copias
+Movie.hasMany(Copy, {as: 'copies'});
+
 
 sequelize.sync({
     force: true,

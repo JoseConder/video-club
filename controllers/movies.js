@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require ('express');
+// como objetos porque es lo que son
 const {Movie, Actor} = require('../db');
 
-//la jerarquia importa
-function create(req, res, next) {    
+function create(req, res,next){
     const title = req.body.title;
     const genreId = req.body.genreId;
     const directorId = req.body.directorId;
@@ -11,48 +11,43 @@ function create(req, res, next) {
         title: title,
         genreId: genreId,
         directorId: directorId
-    }).then(object => res.json(object)).catch(err => res.send(err));
+    }).then(object=> res.json(object)).catch(err=>res.send(err));
 }
 
 function list(req, res, next) {
-    Movie.findAll({inclued: ['genre', 'director']}).then(objects => res.json(objects)).catch(err => res.send(err));
+    //dentro de findall podemos incluir lo que queramos que esté relacionado, en este caso el genero y director
+    Movie.findAll({include: ['genre','director', 'actors']}).then(objects=>res.json(objects)).catch(err=>res.send(err));
 }
 
-function index(req, res, next) {    
-    res.send('movies index');
+function index(req, res,next){
+    const id = req.params.id;
+    Movie.findByPk(id).then(object => res.json(object)).catch(err => res.send(err));
 }
 
-function replace(req, res, next) {    
-    res.send('Users replace');
+function replace(req, res,next){
+    res.send('Movies replace');
 }
 
-function update(req, res, next) {
-    res.send('Users update');
+function update(req, res,next){
+    res.send('Movies update');
 }
 
-function destroy(req, res, next) {
-    res.send('Users destroy');
+function destroy(req, res,next){
+    res.send('Movies destroy');
 }
 
-function addActor(req, res, next){
+function addActor(req,res,next){
     const idMovie = req.body.idMovie;
-    const idActor= req.body.idActor;
+    const idActor = req.body.idActor;
 
-    Movie.findByPk(idMovie).then(movie =>{
+    Movie.findByPk(idMovie).then(movie => {
         Actor.findByPk(idActor).then(actor =>{
             movie.addActor(actor);
             res.json(movie);
-        }).catch(err => res.send(err));
-    }).catch(err => res.send(err));
+        }).cach(err=>res.send(err));
+    }).catch(err=>res.send(err));
 }
 
 module.exports = {
-    list,
-    index,
-    create,
-    replace,
-    update,
-    destroy,
-    addActor
+    list, index, create, replace, update, destroy, addActor
 };
-

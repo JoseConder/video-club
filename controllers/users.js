@@ -1,7 +1,6 @@
-const express = require('express');
+const express = require ('express');
 
-//la jerarquia importa
-function create(req, res, next) {    
+function create(req, res,next){
     res.send('Users create');
 }
 
@@ -9,27 +8,22 @@ function list(req, res, next) {
     res.send('Users list');
 }
 
-function index(req, res, next) {    
-    res.send('Users index');
+function index(req, res,next){
+    res.send('Users Index');
 }
 
-function replace(req, res, next) {    
+function replace(req, res,next){
     res.send('Users replace');
 }
 
-function update(req, res, next) {
+function update(req, res,next){
     res.send('Users update');
 }
 
-function destroy(req, res, next) {
+function destroy(req, res,next){
     res.send('Users destroy');
 }
-module.exports = {
-    list,
-    index,
-    create,
-    replace,
-    update,
-    destroy
-};
 
+module.exports = {
+    list, index, create, replace, update, destroy
+};
