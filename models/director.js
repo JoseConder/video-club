@@ -35,5 +35,5 @@ class Director {
 }
 
 directorSchema.loadClass(Director);
-Schema.pulgin(mongoosePaginate);
+directorSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Director', directorSchema);
