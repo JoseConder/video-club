@@ -4,8 +4,8 @@ const schema = mongoose.Schema({
     _name:String,
     _lastName:String,
     _email:String,
-    _password:String
-    //phone
+    _password:String,
+    _salt:String
 })
 
 class User {
@@ -14,6 +14,7 @@ class User {
         this._lastName = lastName;
         this._email = email;
         this._password = password;
+        this._salt = salt; ///Salt key para cambiar el password
     }
 
     get name(){ return this._name; }
@@ -27,6 +28,9 @@ class User {
 
     get password() {return this._password; }
     set password(v) {this._password = v; }
+
+    get salt() { return this._salt; }
+    set salt(v) { this._salt = v; }
 }
 
 schema.loadClass(User);

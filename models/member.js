@@ -60,14 +60,7 @@ class Member{
         this._address= v;
     }
 
-
-
-
-
-
 }
-
-
 
 schema.loadClass(Member);
 

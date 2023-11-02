@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const {expressjwt} = require('express-jwt');
+const JwtKey = "5710688c0304e5c985c593541265f14b"
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -41,6 +43,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //middleware de recursos estaticos
 //
+
+app.use(expressjwt({secret:JwtKey, algorithms:['HS256']})
+.unless({path:["/login"]}))
+
+
 //middleware de ruteo
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -52,6 +59,7 @@ app.use('/movies', moviesRouter);
 app.use('/copies', copiesRouter);
 app.use('/bookings', bookingsRouter);
 app.use('/awaitlists', awaitlistsRouter);
+app.use('/login', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
