@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const awaitlistController = require('../controllers/awaitlists');
+const { app, checkPermission } = require('../app');
+
 
 router.post('/', awaitlistController.create);
 router.get('/', awaitlistController.list);

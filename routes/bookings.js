@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bookingController = require('../controllers/bookings');
+const { app, checkPermission } = require('../app');
+
 
 router.post('/', bookingController.create);
 router.get('/', bookingController.list);

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/actors');
+const { app, checkPermission } = require('../app');
 
 router.post('/', controller.create)
 

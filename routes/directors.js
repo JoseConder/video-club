@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 
 const controller = require('../controllers/directors');
+const { app, checkPermission } = require('../app');
+
 
 router.get('/list/:page?', controller.list);
 router.get('/:id', controller.index);

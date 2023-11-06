@@ -6,6 +6,9 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const {expressjwt} = require('express-jwt');
 const JwtKey = "5710688c0304e5c985c593541265f14b"
+const acl = require('acl');
+const aclMDB = require('acl-mongodb');
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -31,6 +34,26 @@ db.on('open', ()=> {
 db.on('error', () => {
   console.log('Error connecting to mongoDB');
 });
+
+const aclInstance = new acl(new aclMDB(url));
+
+function checkPermission(permission) {
+  return (req, res, next) => {
+    const userId = req.user.id; 
+
+    aclInstance.isAllowed(userId, 'users', permission, (err, allowed) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error de autorización', error: err });
+      }
+
+      if (allowed) {
+        next(); 
+      } else {
+        return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
+      }
+    });
+  };
+}
 
 
 // view engine setup
@@ -78,4 +101,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = { app, checkPermission };

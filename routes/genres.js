@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const controller = require('../controllers/genres');
+const { app, checkPermission } = require('../app');
+
 
 /* GET users listing. */ 
 //el orden de los controladores afecta la ejecucion (como tenemos controladores se hacen las rutas correspondientes para hacer match)

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/users');
+const { app, checkPermission } = require('../app');
+
 /* GET users listing.
 la jerarquia importa */
 router.get('/',controller.list );
