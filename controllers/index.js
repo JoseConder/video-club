@@ -16,7 +16,7 @@ function login(req,res,next){
             bcrypt.hash(password, user.salt, (err, hash)=>{
                 if(err){
                     res.status(403).json({
-                        msg:"login failed",
+                        msg:"login fail",
                         obj:err
                     })
                 }
@@ -35,13 +35,13 @@ function login(req,res,next){
 
         }else{
             res.status(403).json({
-                msg:"login failed",
+                msg:"login failedd",
                 obj:null
             })
 
         }
     }).catch(e => res.status(403).json({
-        "message":"login failed",
+        "message":"login faileddd",
         obj:ex
     }))
 }

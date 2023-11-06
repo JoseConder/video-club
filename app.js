@@ -41,11 +41,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public'))); //middleware de recursos estaticos
+app.use(express.static(path.join(__dirname, 'public'))); 
+//middleware de recursos estaticos
 //
 
 app.use(expressjwt({secret:JwtKey, algorithms:['HS256']})
-.unless({path:["/login"]}))
+.unless({path:["/login", "/users"]}))
 
 
 //middleware de ruteo
