@@ -12,6 +12,7 @@ function login(req,res,next){
     const JwtKey = "5710688c0304e5c985c593541265f14b"
 
     User.findOne({"_email":email}).then(user =>{
+        console.log(user._id);
         if(user){
             bcrypt.hash(password, user.salt, (err, hash)=>{
                 if(err){
@@ -20,11 +21,23 @@ function login(req,res,next){
                         obj:err
                     })
                 }
-                if(hash === user.password){
+                if (hash === user.password) {
+                    const token = jwt.sign(
+                        {
+                            id: user._id,  
+                            data: user.data,
+                            exp: Math.floor(Date.now() / 1000) + 240
+                        },
+                        JwtKey
+                    );
+
+                    user.token = token;
+                
                     res.status(200).json({
-                        msg:"login success",
-                        obj: jwt.sign({data:user.data, exp:Math.floor(Date.now()/1000)+240}, JwtKey)
-                    })
+                        msg: "login success",
+                        obj: user,  // Devuelve el objeto del usuario
+                        token: token
+                    });
                 }else{
                     res.status(403).json({
                         msg:"login failed"
@@ -42,7 +55,7 @@ function login(req,res,next){
         }
     }).catch(e => res.status(403).json({
         "message":"login faileddd",
-        obj:ex
+        obj:e
     }))
 }
 

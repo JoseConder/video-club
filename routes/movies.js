@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/movies');
+const { checkPermission } = require('../acl');
 
-router.post('/', controller.create)
+router.post('/', checkPermission('Create'), controller.create)
 
-router.get('/', controller.list);
+router.get('/', checkPermission('Read'),controller.list);
 
-router.get('/:id', controller.index);
+router.get('/:id', checkPermission('Read'),controller.index);
 
-router.put('/:id', controller.replace);
+router.put('/:id', checkPermission('Update'),controller.replace);
 
-router.patch('/:id', controller.update);
+router.patch('/:id', checkPermission('Update'),controller.update);
 
-router.delete('/:id', controller.destroy);
+router.delete('/:id', checkPermission('Delete'),controller.destroy);
 
 module.exports = router;

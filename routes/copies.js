@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const copyController = require('../controllers/copies');
+const { checkPermission } = require('../acl');
 
 router.post('/', copyController.create);
 

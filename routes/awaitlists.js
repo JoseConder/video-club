@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const awaitlistController = require('../controllers/awaitlists');
+const { checkPermission } = require('../acl');
 
 router.post('/', awaitlistController.create);
 router.get('/', awaitlistController.list);

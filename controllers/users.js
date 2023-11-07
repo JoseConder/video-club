@@ -8,12 +8,13 @@ async function create(req, res, next){
     const lastName = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
+    const permissions = req.body.permissions || [];
     let salt = await bcrypt.genSalt(10);
 
     const passwordHash = await bcrypt.hash(password, salt);
 
     let user = new User({
-        name:name, lastName:lastName, email:email, password:passwordHash,salt:salt
+        name:name, lastName:lastName, email:email, password:passwordHash,salt:salt, permissions:permissions
     });
     user.save().then(obj => res.status(200).json({
         message:"Usuario creado correctamente", 
